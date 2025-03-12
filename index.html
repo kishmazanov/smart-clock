@@ -28,14 +28,11 @@
 <body>
     <div class="clock" id="time-display"></div>
 
-    <!-- Звуки -->
+    <!-- Звуки (используем относительные пути) -->
     <audio id="alarm-sound" src="alarm.mp3"></audio>
     <audio id="countdown-sound" src="countdown.mp3"></audio>
 
     <script>
-        // Инициализация Telegram Web App
-        const tg = window.Telegram.WebApp;
-
         // Основные элементы
         const timeDisplay = document.getElementById('time-display');
         const alarmSound = document.getElementById('alarm-sound');
@@ -94,7 +91,6 @@
         }, 1000);
 
         // Инициализация приложения
-        tg.ready(); // Говорим Telegram, что приложение готово
         timeDisplay.textContent = updateClock();
     </script>
 </body>
