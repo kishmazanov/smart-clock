@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Smart Clock with Alarms</title>
+    <title>Mini Clock</title>
     <style>
         body {
             display: flex;
@@ -16,19 +16,20 @@
         }
 
         .clock {
-            font-size: 5em;
+            font-size: 1.5em; /* Уменьшенный размер шрифта */
             color: #00ff9d;
-            text-shadow: 0 0 10px rgba(0, 255, 157, 0.5);
-            padding: 20px;
-            border-radius: 10px;
+            text-shadow: 0 0 5px rgba(0, 255, 157, 0.5); /* Уменьшенная тень */
+            padding: 10px; /* Уменьшенные отступы */
+            border-radius: 5px; /* Скругление углов */
             background: #2a2a2a;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.3); /* Тень для контейнера */
         }
     </style>
 </head>
 <body>
-    <div class="clock" id="time-display"></div>
+    <div class="clock" id="time-display">00:00:00</div>
 
-    <!-- Звуки (используем относительные пути) -->
+    <!-- Звуки -->
     <audio id="alarm-sound" src="alarm.mp3"></audio>
     <audio id="countdown-sound" src="countdown.mp3"></audio>
 
