@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Clock with Alarms</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background: #1a1a1a;
+            font-family: 'Arial', sans-serif;
+        }
+
+        .clock {
+            font-size: 5em;
+            color: #00ff9d;
+            text-shadow: 0 0 10px rgba(0, 255, 157, 0.5);
+            padding: 20px;
+            border-radius: 10px;
+            background: #2a2a2a;
+        }
+    </style>
+</head>
+<body>
+    <div class="clock" id="time-display"></div>
+
+    <!-- Звуки -->
+    <audio id="alarm-sound" src="https://ваш-хостинг.com/alarm.mp3"></audio>
+    <audio id="countdown-sound" src="https://ваш-хостинг.com/countdown.mp3"></audio>
+
+    <script>
+        // Инициализация Telegram Web App
+        const tg = window.Telegram.WebApp;
+
+        // Основные элементы
+        const timeDisplay = document.getElementById('time-display');
+        const alarmSound = document.getElementById('alarm-sound');
+        const countdownSound = document.getElementById('countdown-sound');
+        
+        let isCountdownActive = false;
+
+        // Функция обновления времени
+        function updateClock() {
+            const now = new Date();
+            const hours = now.getHours().toString().padStart(2, '0');
+            const minutes = now.getMinutes().toString().padStart(2, '0');
+            const seconds = now.getSeconds().toString().padStart(2, '0');
+            return `${hours}:${minutes}:${seconds}`;
+        }
+
+        // Проверка времени для сигналов
+        function checkAlarmTime() {
+            const now = new Date();
+            const totalSeconds = now.getMinutes() * 60 + now.getSeconds();
+            const secondsToNextAlarm = 300 - (totalSeconds % 300);
+            
+            if (secondsToNextAlarm <= 10 && !isCountdownActive) {
+                startCountdown(secondsToNextAlarm);
+            }
+        }
+
+        // Обратный отсчет
+        function startCountdown(seconds) {
+            isCountdownActive = true;
+            let count = seconds;
+
+            function updateCountdown() {
+                if (count > 0) {
+                    timeDisplay.textContent = `Signal in: ${count}`;
+                    countdownSound.play();
+                    count--;
+                } else {
+                    clearInterval(countdownInterval);
+                    timeDisplay.textContent = updateClock();
+                    alarmSound.play();
+                    isCountdownActive = false;
+                }
+            }
+
+            const countdownInterval = setInterval(updateCountdown, 1000);
+            updateCountdown();
+        }
+
+        // Основной цикл обновления
+        setInterval(() => {
+            if (!isCountdownActive) {
+                timeDisplay.textContent = updateClock();
+                checkAlarmTime();
+            }
+        }, 1000);
+
+        // Инициализация приложения
+        tg.ready(); // Говорим Telegram, что приложение готово
+        timeDisplay.textContent = updateClock();
+    </script>
+</body>
+</html>
